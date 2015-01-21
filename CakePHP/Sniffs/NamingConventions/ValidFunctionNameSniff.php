@@ -97,42 +97,36 @@ class CakePHP_Sniffs_NamingConventions_ValidFunctionNameSniff extends PHP_CodeSn
 		$scope = $methodProps['scope'];
 
 		if ($isPublic === true) {
-			if ($methodName[0] === '_') {
-				$error = 'Public method name "%s" must not be prefixed with underscore';
-				$phpcsFile->addError($error, $stackPtr, 'PublicWithUnderscore', $errorData);
-				return;
-			}
-			// Underscored public methods in controller are allowed to break our rules.
-			if (substr($className, -10) === 'Controller') {
-				return;
-			}
-			// Underscored public methods in shells are allowed to break our rules.
-			if (substr($className, -5) === 'Shell') {
-				return;
-			}
-			// Underscored public methods in tasks are allowed to break our rules.
-			if (substr($className, -4) === 'Task') {
-				return;
-			}
-		} elseif ($isPrivate === true) {
-			if (substr($methodName, 0, 2) !== '__') {
-				$error = 'Private method name "%s" must be prefixed with 2 underscores';
-				$phpcsFile->addError($error, $stackPtr, 'PrivateNoUnderscore', $errorData);
-				return;
-			} else {
-				$filename = $phpcsFile->getFilename();
-				if (strpos($filename, '/lib/Cake/') === true) {
-					$warning = 'Private method name "%s" in CakePHP core is discouraged';
-					$phpcsFile->addWarning($warning, $stackPtr, 'PrivateMethodInCore', $errorData);
-				}
-			}
-		} else {
-			if ($methodName[0] !== '_' || substr($methodName, 0, 2) === '__') {
-				$error = 'Protected method name "%s" must be prefixed with one underscore';
-				$phpcsFile->addError($error, $stackPtr, 'ProtectedNoUnderscore', $errorData);
-				return;
-			}
-		}
+	            if ($methodName[0] === '_') {
+	                $error = 'Public method name "%s" must not be prefixed with underscore';
+	                $phpcsFile->addError($error, $stackPtr, 'PublicWithUnderscore', $errorData);
+	                return;
+	            }
+	            // Underscored public methods in controller are allowed to break our rules.
+	            if (substr($className, -10) === 'Controller') {
+	                return;
+	            }
+	            // Underscored public methods in shells are allowed to break our rules.
+	            if (substr($className, -5) === 'Shell') {
+	                return;
+	            }
+	            // Underscored public methods in tasks are allowed to break our rules.
+	            if (substr($className, -4) === 'Task') {
+	                return;
+	            }
+	        } elseif ($isPrivate === true) {
+	            if ($methodName[0] === '_') {
+	                $error = 'Private method name "%s" must not be prefixed with underscore';
+	                $phpcsFile->addError($error, $stackPtr, 'PrivateNoUnderscore', $errorData);
+	                return;
+	            }
+	        } else {
+	            if ( substr($methodName, 0, 2) === '__') {
+	                $error = 'Protected method name "%s" must not be prefixed with underscore';
+	                $phpcsFile->addError($error, $stackPtr, 'ProtectedNoUnderscore', $errorData);
+	                return;
+	            }
+	        }
 	}
 
 /**
